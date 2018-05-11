@@ -100,6 +100,7 @@ namespace Compilador.Infra
             StringBuilder str = new StringBuilder();
             int estate = 0;
             Symbol symbol;
+            bool literal = false;
 
             for (int i = 0; i < code.Length; i++)
             {
@@ -116,15 +117,30 @@ namespace Compilador.Infra
                     {
                         estate = TransitionTable[estate, GetKeywordColumn('l')];
                     }
-                    else if (char.IsWhiteSpace(code[i]))
+                    else if (char.IsWhiteSpace(code[i]) && literal == false)
                     {
                         break;
                     }
-                    else
+                    else if (!char.IsLetterOrDigit(code[i]))
                     {
-                        estate = TransitionTable[estate, GetKeywordColumn(code[i])];
-                        break;
+                        if (!char.IsWhiteSpace(code[i]))
+                        {
+                            estate = TransitionTable[estate, GetKeywordColumn(code[i])];
+                            if (code[i] == '\"')
+                            {
+                                if (literal == false)
+                                    literal = true;
+                                else
+                                {
+                                    literal = false;
+                                }
+                            }
+                        }
+                        if (literal == false && code[i] != '\"')
+                            break;
                     }
+
+
                     if (estate == -1)
                     {
                         break;
