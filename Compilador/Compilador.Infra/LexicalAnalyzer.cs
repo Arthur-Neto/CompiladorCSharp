@@ -60,9 +60,9 @@ namespace Compilador.Infra
         {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},//q43
         {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}};//q44
 
-        private static readonly string[] reservedWords = { "algoritmo", "var", "inicio", "fimalgoritmo", "inteiro", "real", "caractere", "logico", "vetor", "escreval", "leia", "para", "de", "ate", "faca", "fimpara", "se", "senao", "fimse" };
-        private static readonly string[] separators = { "(", ")", "[", "]", "\n", "\0", ",", ":", "." };
-        private static readonly string[] operators = { "+", "-", "/", "%", "[]", "()", ">", "<", "=", "<=", ">=", "^" };
+        private static readonly string[] reservedWords = { "algoritmo", "var", "inicio", "fimalgoritmo", "inteiro", "real", "caractere", "logico", "vetor", "escreval", "leia", "para", "de", "ate", "faca", "fimpara", "se", "senao", "fimse", "entao" };
+        private static readonly string[] separators = { "(", ")", "[", "]", "\n", "\0", ",", ":", ".", ".." };
+        private static readonly string[] operators = { "+", "-", "/", "%", "[]", "()", ">", "<", "=", "<=", ">=", "^", "<-" };
 
         public LexicalAnalyzer()
         {
@@ -88,6 +88,7 @@ namespace Compilador.Infra
             TableSymbol.AddSymbol(new Symbol { Id = 17, Name = "se" });
             TableSymbol.AddSymbol(new Symbol { Id = 18, Name = "senao" });
             TableSymbol.AddSymbol(new Symbol { Id = 19, Name = "fimse" });
+            TableSymbol.AddSymbol(new Symbol { Id = 19, Name = "entao" });
         }
 
         public void AnalyzeCode(string code)
