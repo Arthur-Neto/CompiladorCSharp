@@ -36,5 +36,10 @@ namespace Compilador.Infra.Data
             }
             return false;
         }
+
+        public static void ClearTable()
+        {
+            Table.Clear();
+        }
     }
 }

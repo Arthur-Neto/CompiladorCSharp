@@ -60,12 +60,15 @@ namespace Compilador.Infra
         {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},//q43
         {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}};//q44
 
-        private static readonly string[] reservedWords = { "algoritmo", "var", "inicio", "fimalgoritmo", "inteiro", "real", "caractere", "logico", "vetor", "escreval" };
-        private static readonly string[] separators = { "(", ")", "[", "]", "\n", "\0" };
-        private static readonly string[] operators = { "+", "-", "/", "%", ",", ".", ":", "[]", "()", ">", "<", "=", "<=", ">=", "^" };
+        private static readonly string[] reservedWords = { "algoritmo", "var", "inicio", "fimalgoritmo", "inteiro", "real", "caractere", "logico", "vetor", "escreval", "leia", "para", "de", "ate", "faca", "fimpara", "se", "senao", "fimse" };
+        private static readonly string[] separators = { "(", ")", "[", "]", "\n", "\0", ",", ":", "." };
+        private static readonly string[] operators = { "+", "-", "/", "%", "[]", "()", ">", "<", "=", "<=", ">=", "^" };
 
         public LexicalAnalyzer()
         {
+            TableToken.ClearTable();
+            TableSymbol.ClearTable();
+
             TableSymbol.AddSymbol(new Symbol { Id = 1, Name = "algoritmo" });
             TableSymbol.AddSymbol(new Symbol { Id = 2, Name = "var" });
             TableSymbol.AddSymbol(new Symbol { Id = 3, Name = "inicio" });
@@ -76,22 +79,15 @@ namespace Compilador.Infra
             TableSymbol.AddSymbol(new Symbol { Id = 8, Name = "logico" });
             TableSymbol.AddSymbol(new Symbol { Id = 9, Name = "vetor" });
             TableSymbol.AddSymbol(new Symbol { Id = 10, Name = "escreval" });
-            TableSymbol.AddSymbol(new Symbol { Id = 11, Name = "(" });
-            TableSymbol.AddSymbol(new Symbol { Id = 12, Name = ")" });
-            TableSymbol.AddSymbol(new Symbol { Id = 13, Name = "[" });
-            TableSymbol.AddSymbol(new Symbol { Id = 14, Name = "]" });
-            TableSymbol.AddSymbol(new Symbol { Id = 15, Name = "+" });
-            TableSymbol.AddSymbol(new Symbol { Id = 16, Name = "-" });
-            TableSymbol.AddSymbol(new Symbol { Id = 17, Name = "*" });
-            TableSymbol.AddSymbol(new Symbol { Id = 18, Name = "/" });
-            TableSymbol.AddSymbol(new Symbol { Id = 19, Name = "%" });
-            TableSymbol.AddSymbol(new Symbol { Id = 20, Name = "," });
-            TableSymbol.AddSymbol(new Symbol { Id = 21, Name = "." });
-            TableSymbol.AddSymbol(new Symbol { Id = 22, Name = ":" });
-            TableSymbol.AddSymbol(new Symbol { Id = 23, Name = "=" });
-            TableSymbol.AddSymbol(new Symbol { Id = 24, Name = ">" });
-            TableSymbol.AddSymbol(new Symbol { Id = 25, Name = "<" });
-            TableSymbol.AddSymbol(new Symbol { Id = 26, Name = "\\" });
+            TableSymbol.AddSymbol(new Symbol { Id = 11, Name = "leia" });
+            TableSymbol.AddSymbol(new Symbol { Id = 12, Name = "para" });
+            TableSymbol.AddSymbol(new Symbol { Id = 13, Name = "de" });
+            TableSymbol.AddSymbol(new Symbol { Id = 14, Name = "ate" });
+            TableSymbol.AddSymbol(new Symbol { Id = 15, Name = "faca" });
+            TableSymbol.AddSymbol(new Symbol { Id = 16, Name = "fimpara" });
+            TableSymbol.AddSymbol(new Symbol { Id = 17, Name = "se" });
+            TableSymbol.AddSymbol(new Symbol { Id = 18, Name = "senao" });
+            TableSymbol.AddSymbol(new Symbol { Id = 19, Name = "fimse" });
         }
 
         public void AnalyzeCode(string code)
@@ -139,12 +135,11 @@ namespace Compilador.Infra
                         if (literal == false && code[i] != '\"')
                             break;
                     }
-
-
                     if (estate == -1)
                     {
                         break;
                     }
+
                     str.Append(code[i]);
                     i++;
                 }
@@ -192,6 +187,10 @@ namespace Compilador.Infra
         {
             switch (c)
             {
+                case 'd':
+                    return 0;
+                case 'l':
+                    return 1;
                 case '(':
                     return 2;
                 case ')':
@@ -225,13 +224,9 @@ namespace Compilador.Infra
                 case '"':
                     return 17;
                 case '\n':
-                    return -1;
+                    return 18;
                 case '\0':
                     return -1;
-                case 'd':
-                    return 0;
-                case 'l':
-                    return 1;
                 default:
                     break;
             }

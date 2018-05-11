@@ -20,14 +20,25 @@ namespace Compilador.WinApp
         public FormPrincipal()
         {
             InitializeComponent();
-            analisadorLexico = new LexicalAnalyzer();
         }
 
         private void buttonCompilar_Click(object sender, EventArgs e)
         {
+            analisadorLexico = new LexicalAnalyzer();
             analisadorLexico.AnalyzeCode(textBoxCode.Text);
+            ClearGrids();
+        }
+
+        private void ClearGrids()
+        {
+            dataGridViewTableSymbol.DataSource = null;
+            dataGridViewTableTokens.DataSource = null;
+            dataGridViewTableSymbol.Rows.Clear();
+            dataGridViewTableTokens.Rows.Clear();
             dataGridViewTableSymbol.DataSource = TableSymbol.Table;
             dataGridViewTableTokens.DataSource = TableToken.Table;
+            dataGridViewTableSymbol.Refresh();
+            dataGridViewTableTokens.Refresh();
         }
 
         private void importarToolStripMenuItem_Click(object sender, EventArgs e)
